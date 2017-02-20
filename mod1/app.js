@@ -3,7 +3,11 @@
 
 angular.module('LunchCheck', [])
 
-.controller('LunchCheckController', function ($scope) {
+
+.controller('LunchCheckController', LunchCheckController);
+LunchCheckController.$inject = ['$scope'];
+
+function LunchCheckController($scope) {
   $scope.message = "";
   $scope.menu = "";
 
@@ -31,7 +35,6 @@ angular.module('LunchCheck', [])
     }
     return count;
   };
-
-});
+}
 
 })();
