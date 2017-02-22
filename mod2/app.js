@@ -24,8 +24,7 @@ angular.module("ShoppingListCheckOff", [])
     bought.onCancelBuy = function(index){
       ShoppingListCheckOffService.onCancelBuy(index);
     }
-
-  }
+  };
 
   function ShoppingListCheckOffService(){
     var service = this;
