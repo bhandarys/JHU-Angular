@@ -9,7 +9,7 @@ angular.module("ShoppingListCheckOff", [])
   ToBuyController.$inject = ['ShoppingListCheckOffService'];
   function ToBuyController(ShoppingListCheckOffService){
     var buy = this;
-    buy.ToBuyList = ShoppingListCheckOffService.shoppingList1;
+    buy.ToBuyList = ShoppingListCheckOffService.getToBuyItems();
 
     buy.onBuy = function(index){
       ShoppingListCheckOffService.onBuy(index);
@@ -19,7 +19,12 @@ angular.module("ShoppingListCheckOff", [])
   AlreadyBoughtController.$inject = ['ShoppingListCheckOffService'];
   function AlreadyBoughtController(ShoppingListCheckOffService){
     var bought = this
-    bought.BoughtList = ShoppingListCheckOffService.shoppingList2;
+    bought.BoughtList = ShoppingListCheckOffService.getBoughtItems();
+
+    bought.onCancelBuy = function(index){
+      ShoppingListCheckOffService.onCancelBuy(index);
+    }
+
   }
 
   function ShoppingListCheckOffService(){
@@ -44,10 +49,15 @@ angular.module("ShoppingListCheckOff", [])
       }
     ];
     var shoppingList2 = [];
-    // Till here
+    // Data till here
 
-    service.shoppingList1 = shoppingList1;
-    service.shoppingList2 = shoppingList2;
+    service.getToBuyItems = function(){
+      return shoppingList1;
+    };
+
+    service.getBoughtItems = function(){
+      return shoppingList2;
+    };
 
     service.onBuy = function(index) {
       shoppingList2.push(  {
@@ -57,5 +67,15 @@ angular.module("ShoppingListCheckOff", [])
       );
       shoppingList1.splice(index, 1);
     };
+
+    service.onCancelBuy = function(index) {
+      shoppingList1.push(  {
+          name: shoppingList2[index].name,
+          quantity: shoppingList2[index].quantity
+        }
+      );
+      shoppingList2.splice(index, 1);
+    };
+
   }
 })();
