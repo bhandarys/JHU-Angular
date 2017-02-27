@@ -45,6 +45,26 @@ angular.module("ShoppingListCheckOff", [])
       {
         name: "Chocolate",
         quantity: "5"
+      },
+      {
+        name: "Yogurt",
+        quantity: "2"
+      },
+      {
+        name: "Apple",
+        quantity: "6"
+      },
+      {
+        name: "Orange",
+        quantity: "6"
+      },
+      {
+        name: "Ice Cream",
+        quantity: "1"
+      },
+      {
+        name: "Yogurt",
+        quantity: "6"
       }
     ];
     var shoppingList2 = [];
