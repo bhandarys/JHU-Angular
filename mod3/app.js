@@ -4,7 +4,8 @@
 
 angular.module("NarrowItDownApp", [])
       .controller("NarrowItDownController", NarrowItDownController)
-      .service("MenuSearchService", MenuSearchService);
+      .service("MenuSearchService", MenuSearchService)
+      .constant('ApiBasePath', "http://davids-restaurant.herokuapp.com");
 
 
 NarrowItDownController.$inject = ['MenuSearchService'];
@@ -13,77 +14,65 @@ function NarrowItDownController(MenuSearchService){
 
   list.found = [];
   console.log("Inside Controller");
- // {{item.short_name}}
-  // list.getMatchedMenuItems = function(){};
   list.getMatchedMenuItems = function(){
-    console.log("Inside function");
+    console.log("Inside function with search for " + list.search);
     list.found.splice(0, list.found.length);
-    var promise = MenuSearchService.getAllMenuItems();
-    console.log("Strange promise " + promise);
+    var promise = MenuSearchService.getMatchedMenuItems(list.search);
+    // console.log("Strange promise " + promise + " with search " + list.search);
     promise.then(function (response){
-        list.items = response.data.menu_items;
-        CheckForSerchItems(list.search);
-        // console.log("Inside Seach with count " + list.items.count);
-        // for(var i=0;i<list.items.count;i++){
-        //   if(list.items[i].search(search) != -1){
-        //      list.items1.push(items[i]);
-        //      console.log("Pushed " + list.items[i].id);
-        //    };
-
-        // console.log("in controller log; length is " + list.items.length);
-        // console.log("in controller log; status is " + response.status);
-        // console.log("in controller log; Status Text is " + response.statusText );
-        // console.log("in controller log; Status Text is " + response.data );
+    // MenuSearchService.getMatchedMenuItems(list.search)
+    // .then(function (response){
+        list.found = response;
+        console.log("Finally, the count is " + list.found.length);
+        // CheckForSerchItems(list.search, response);
     })
     .catch(function(error){
       console.log("Caught the error " + error);
     });
-    // list.items = ["Sudhir", "Vidya", "Nakshatra"];
     console.log("Search item is " + list.search );
   } ;
 
-  function CheckForSerchItems(search){
-    console.log("Inside Check for search items");
-        if(search){
-        console.log("Inside Seach with count " + list.items.length);
-        for(var i=0;i<list.items.length;i++){
-          var n = list.items[i].description.toLowerCase().search(search.toLowerCase());
-          console.log("Found at position " + n + " in " + list.items[i].description);
-          if(n != -1){
-            console.log("Found Match" + list.items[i]);
-            // items[i].splice(i, 1);
-            list.found.push(list.items[i])
-            console.log("Excpeption in push");
-          }
-          else {
-            console.log("Not Match");
-          }
-        }
-      }
-      else{
-        console.log("search failed");
-      }
-    };
-  //
   list.removeItem = function(index){
       list.found.splice(index, 1);
   };
 } // Controller
 
 
-  MenuSearchService.$inject = ["$http"];
-  function MenuSearchService($http){
+  MenuSearchService.$inject = ["$http", "ApiBasePath"];
+  function MenuSearchService($http, ApiBasePath){
     var service = this;
 
-    service.getAllMenuItems = function(){
+    service.getMatchedMenuItems = function(search){
+      console.log("Local to service function" + search);
+      // var searhTerm = search;
       var response = $http({
         method:"GET",
-        url: ("https://davids-restaurant.herokuapp.com/menu_items.json")
+        url: (ApiBasePath + "/menu_items.json")
         // url: ("https://davids-restaurant.herokuapp.com/categories.json")
+      })
+      .then(function(response){
+            // search = "egg";
+            var found = [];
+            console.log("Inside Check for search items with search" + search);
+            if(search){
+              console.log("Inside Seach with count " + response.data.menu_items.length);
+              for(var i=0;i<response.data.menu_items.length;i++){
+                var n = response.data.menu_items[i].description.toLowerCase().search(search.toLowerCase());
+                console.log("Found at position " + n + " in " + response.data.menu_items[i].description);
+                if(n != -1){
+                  console.log("Found Match" + response.data.menu_items[i].description);
+                  found.push(response.data.menu_items[i])
+                }
+              }
+            } else {
+              console.log("search failed");
+            }
+            console.log("1. Found " + found.length + " items");
+            return found;
       });
-      console.log("Inside http call");
+      // console.log("2. Found " + found.length + " items");
       return response;
-    }
-  };
+    }; //function(search)
+  }; //MenuSearchService
 
 })();
