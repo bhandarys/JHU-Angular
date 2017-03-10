@@ -78,3 +78,31 @@ function NarrowItDownController(MenuSearchService){
       if (list.found.length == 0) list.preSearch = false;
   };
 } // Controller
+MenuSearchService.$inject = ["$http", "ApiBasePath"];
+function MenuSearchService($http, ApiBasePath){
+  var service = this;
+
+  service.getMatchedMenuItems = function(search){
+    var response = $http({
+      method:"GET",
+      url: (ApiBasePath + "/menu_items.json")
+    })
+    .then(function(response){
+          var found = [];
+          if(search){
+            for(var i=0;i<response.data.menu_items.length;i++){
+              var n = response.data.menu_items[i].description.toLowerCase().search(search.toLowerCase());
+              if(n != -1){
+                found.push(response.data.menu_items[i])
+              }
+            }
+          } else {
+            console.log("search failed");
+          }
+          return found;
+    });
+    return response;
+  }; //function(search)
+}; //MenuSearchService
+
+})();
