@@ -68,10 +68,10 @@ function NarrowItDownController(MenuSearchService){
     var promise = MenuSearchService.getMatchedMenuItems(list.search);
     console.log("Got promise");
     promise.then(function (response){
-        log("Inside promise")
+        console.log("Inside promise")
         list.found = response;
-        list.preSearch = false;
-        log("End of promise")
+        //list.preSearch = false;
+        console.log("End of promise")
     })
     .catch(function(error){
       console.log("Caught the error " + error);
