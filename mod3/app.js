@@ -91,6 +91,7 @@ function MenuSearchService($http, ApiBasePath){
   var service = this;
 
   service.getMatchedMenuItems = function(search){
+    console.log("Inside the service");
     var response = $http({
       method:"GET",
       url: (ApiBasePath + "/menu_items.json")
