@@ -66,7 +66,7 @@ function NarrowItDownController(MenuSearchService){
     list.found.splice(0, list.found.length);
     list.preSearch = true;
     var promise = MenuSearchService.getMatchedMenuItems(list.search);
-    //console.log("Got promise" + promise);
+    console.log("Got promise");
     promise.then(function (response){
         console.log("Inside promise")
         list.found = response;
@@ -75,6 +75,7 @@ function NarrowItDownController(MenuSearchService){
     })
     .catch(function(error){
       console.log("Caught the error " + error.message);
+      console.log("Caught the error " + error.name);
     });
   } ;
 
