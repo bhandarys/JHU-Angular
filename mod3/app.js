@@ -57,16 +57,21 @@ function FoundItemsDirectiveLink(scope, element, attrs, controller) {
 NarrowItDownController.$inject = ['MenuSearchService'];
 function NarrowItDownController(MenuSearchService){
   var list = this;
+  console.log("Inside Controller");
 
   list.preSearch = true;
   list.found = [];
   list.getMatchedMenuItems = function(){
+    console.log("Inside getMatchedMenuItems function");
     list.found.splice(0, list.found.length);
     list.preSearch = true;
     var promise = MenuSearchService.getMatchedMenuItems(list.search);
+    console.log("Got promise");
     promise.then(function (response){
+        log("Inside promise")
         list.found = response;
         list.preSearch = false;
+        log("End of promise")
     })
     .catch(function(error){
       console.log("Caught the error " + error);
@@ -78,6 +83,8 @@ function NarrowItDownController(MenuSearchService){
       if (list.found.length == 0) list.preSearch = false;
   };
 } // Controller
+
+
 MenuSearchService.$inject = ["$http", "ApiBasePath"];
 function MenuSearchService($http, ApiBasePath){
   var service = this;
