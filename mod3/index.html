@@ -37,18 +37,9 @@
     <!-- <found-items found-items="...." on-remove="...."></found-items> -->
   </div>
   <div>
-    <ul>
-      <li ng-repeat="item in list.found">{{item.name}} ({{item.short_name}}) - {{item.description}}
-        <button class="btn btn-default" ng-click="list.removeItem($index)">
-          <span class="glyphicon glyphicon-remove"></span>
-        </button>
-      </li>
-      <!-- <li> Sudhir </li>
-      <li> Vidya </li>
-      <li> Nakshatra </li> -->
-    </ul>
-    <div class="emptyMessage" ng-if="list.found.length == 0">Nothing found!</div>
-    </div>
+  <found-items found = "list.found" remove-item="list.removeItem(index)"></found-items>
+  <div class="emptyMessage" ng-if="list.found.length == 0">Nothing found!</div>
+  </div>
   </div>
   <script src = "angular.min.js"></script>
   <script src = "app.js"></script>
