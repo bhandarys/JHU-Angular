@@ -13,45 +13,69 @@ function FoundItemsDirective(){
     templateUrl: 'menuList.html',
     scope: {
        found: '<',
-      //  myTitle: '@title',
+      preSearch: '<',
       removeItem: '&'
     },
     controller: FoundItemsDirectiveController,
     controllerAs: 'list',
-    bindToController: true
-    // link: ShoppingListDirectiveLink
+    bindToController: true,
+    link: FoundItemsDirectiveLink
   };
   return ddo;
 };
 
-function FoundItemsDirectiveController() {};
+
+function FoundItemsDirectiveController() {
+  var items = this;
+
+  items.showMsg = function(){
+    if(items.preSearch == true){
+      return false;
+    } else {
+      if (items.found.length == 0){
+        return true;
+      }
+    }
+    return false;
+  }
+};
+
+function FoundItemsDirectiveLink(scope, element, attrs, controller) {
+
+  scope.$watch('list.showMsg()', function (showMsg) {
+    var emptyElem = element.find("div");
+    if (showMsg === true) {
+      emptyElem.css('display', 'block');
+    }
+    else {
+      emptyElem.css('display', 'none');
+    }
+  });
+
+}
 
 NarrowItDownController.$inject = ['MenuSearchService'];
 function NarrowItDownController(MenuSearchService){
   var list = this;
 
+  list.preSearch = true;
   list.found = [];
-  console.log("Inside Controller");
   list.getMatchedMenuItems = function(){
-    console.log("Inside function with search for " + list.search);
     list.found.splice(0, list.found.length);
+    list.preSearch = true;
     var promise = MenuSearchService.getMatchedMenuItems(list.search);
-    // console.log("Strange promise " + promise + " with search " + list.search);
     promise.then(function (response){
-    // MenuSearchService.getMatchedMenuItems(list.search)
-    // .then(function (response){
         list.found = response;
-        console.log("Finally, the count is " + list.found.length);
-        // CheckForSerchItems(list.search, response);
+        list.preSearch = false;
     })
     .catch(function(error){
       console.log("Caught the error " + error);
     });
-    console.log("Search item is " + list.search );
   } ;
 
   list.removeItem = function(index){
       list.found.splice(index, 1);
+      if (list.found.length == 0) list.preSearch = false;
   };
 } // Controller
 
@@ -61,34 +85,24 @@ function NarrowItDownController(MenuSearchService){
     var service = this;
 
     service.getMatchedMenuItems = function(search){
-      console.log("Local to service function" + search);
-      // var searhTerm = search;
       var response = $http({
         method:"GET",
         url: (ApiBasePath + "/menu_items.json")
-        // url: ("https://davids-restaurant.herokuapp.com/categories.json")
       })
       .then(function(response){
-            // search = "egg";
             var found = [];
-            console.log("Inside Check for search items with search" + search);
             if(search){
-              console.log("Inside Seach with count " + response.data.menu_items.length);
               for(var i=0;i<response.data.menu_items.length;i++){
                 var n = response.data.menu_items[i].description.toLowerCase().search(search.toLowerCase());
-                console.log("Found at position " + n + " in " + response.data.menu_items[i].description);
                 if(n != -1){
-                  console.log("Found Match" + response.data.menu_items[i].description);
                   found.push(response.data.menu_items[i])
                 }
               }
             } else {
               console.log("search failed");
             }
-            console.log("1. Found " + found.length + " items");
             return found;
       });
-      // console.log("2. Found " + found.length + " items");
       return response;
     }; //function(search)
   }; //MenuSearchService
