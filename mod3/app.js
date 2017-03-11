@@ -74,7 +74,7 @@ function NarrowItDownController(MenuSearchService){
         console.log("End of promise")
     })
     .catch(function(error){
-      console.log("Caught the error " + error.message);
+      console.log("Caught the error " + error.reason);
       console.log("Caught the error " + error.name);
     });
   } ;
