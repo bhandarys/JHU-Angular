@@ -26,13 +26,15 @@ function FoundItemsDirective(){
 
 
 function FoundItemsDirectiveController() {
-  var items = this;
+  var list = this;
 
-  items.showMsg = function(){
-    if(items.preSearch == true){
+  list.showMsg = function(){
+    console.log("Inside Show Message Function. Value of preSearch is " + list.preSearch);
+    console.log(list);
+    if(list.preSearch == true){
       return false;
     } else {
-      if (items.found.length == 0){
+      if (list.found.length == 0){
         return true;
       }
     }
@@ -42,9 +44,10 @@ function FoundItemsDirectiveController() {
 
 function FoundItemsDirectiveLink(scope, element, attrs, controller) {
 
-  scope.$watch('list.showMsg()', function (showMsg) {
+  scope.$watch('list.showMsg()', function (newValue, oldValue) {
+    console.log("showMsg is " + newValue);
     var emptyElem = element.find("div");
-    if (showMsg === true) {
+    if (newValue === true) {
       emptyElem.css('display', 'block');
     }
     else {
@@ -56,21 +59,21 @@ function FoundItemsDirectiveLink(scope, element, attrs, controller) {
 
 NarrowItDownController.$inject = ['MenuSearchService'];
 function NarrowItDownController(MenuSearchService){
-  var list = this;
-  console.log("Inside Controller");
+  var items = this;
 
-  list.preSearch = true;
-  list.found = [];
-  list.getMatchedMenuItems = function(){
-    console.log("Inside getMatchedMenuItems function");
-    list.found.splice(0, list.found.length);
-    list.preSearch = true;
-    var promise = MenuSearchService.getMatchedMenuItems(list.search);
+  items.preSearch = true;
+  console.log("Inside Controller. Value of preSearch is " + items.preSearch);
+  items.found = [];
+  items.getMatchedMenuItems = function(){
+    console.log("Inside getMatchedMenuItems function. Value of preSearch is " + items.preSearch);
+    items.found.splice(0, items.found.length);
+    items.preSearch = true;
+    var promise = MenuSearchService.getMatchedMenuItems(items.search);
     console.log("Got promise");
     promise.then(function (response){
         console.log("Inside promise")
-        list.found = response;
-        list.preSearch = false;
+        items.found = response;
+        items.preSearch = false;
         console.log("End of promise")
     })
     .catch(function(error){
@@ -81,9 +84,9 @@ function NarrowItDownController(MenuSearchService){
     });
   } ;
 
-  list.removeItem = function(index){
-      list.found.splice(index, 1);
-      if (list.found.length == 0) list.preSearch = false;
+  items.removeItem = function(index){
+      items.found.splice(index, 1);
+      if (items.found.length == 0) items.preSearch = false;
   };
 } // Controller
 

@@ -5,8 +5,9 @@ var app = express();
 // process.env.PORT lets the port be set by Heroku
 var port = process.env.PORT || 8080;
 
+app.set('view engine', 'jade');
 // make express look in the public directory for assets (css/js/img)
-app.use(express.static(__dirname + '/app'));
+app.use(express.static(__dirname + '/JHU-Angular'));
 
 // set the home page route
 app.get('/', function(req, res) {
