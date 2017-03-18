@@ -81,8 +81,8 @@ function NarrowItDownController(MenuSearchService){
     })
     .catch(function(error){
       console.log("1. Caught the error with reason" + error.reason);
-      console.log("1. Caught the error with reason" + error.status);
-      console.log("1. Caught the error with reason" + error.description);
+      // console.log("1. Caught the error with reason" + error.status);
+      // console.log("1. Caught the error with reason" + error.description);
       // console.log("Caught the error " + error.name);
     });
   } ;
