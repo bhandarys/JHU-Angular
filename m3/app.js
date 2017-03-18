@@ -78,7 +78,9 @@ function NarrowItDownController(MenuSearchService){
         items.found = response;
         items.preSearch = false;
         console.log("End of promise")
-    }, function(response){})
+    }, function(response){
+      console.log("Function failed");
+    })
     .catch(function(error){
       console.log("1. Caught the error with reason" + error.reason);
       console.log("1. Caught the error with reason" + error.status);
