@@ -108,8 +108,9 @@ function MenuSearchService($http, ApiBasePath){
           var found = [];
           if(search){
             for(var i=0;i<response.data.menu_items.length;i++){
-              var n = response.data.menu_items[i].description.toLowerCase().search(search.toLowerCase());
-              if(n != -1){
+              // var n = response.data.menu_items[i].description.toLowerCase().search(search.toLowerCase());
+              var n = response.data.menu_items[i].description.toLowerCase().indexOf(search);
+              if(n !== -1){
                 found.push(response.data.menu_items[i])
               }
             }
