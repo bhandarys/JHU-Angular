@@ -30,8 +30,8 @@ function FoundItemsDirectiveController() {
   var list = this;
 
   list.showMsg = function(){
-    console.log("Inside Show Message Function. Value of preSearch is " + list.preSearch);
-    console.log(list);
+    // console.log("Inside Show Message Function. Value of preSearch is " + list.preSearch);
+    // console.log(list);
     if(list.preSearch == true){
       return false;
     } else {
@@ -47,7 +47,7 @@ function FoundItemsDirectiveController() {
 function FoundItemsDirectiveLink(scope, element, attrs, controller) {
 
   scope.$watch('list.showMsg()', function (newValue, oldValue) {
-    console.log("showMsg is " + newValue);
+    // console.log("showMsg is " + newValue);
     var emptyElem = element.find("div");
     if (newValue === true) {
       emptyElem.css('display', 'block');
