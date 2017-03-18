@@ -94,33 +94,64 @@ function NarrowItDownController(MenuSearchService){
 } // Controller
 
 
-MenuSearchService.$inject = ["$http", "ApiBasePath"];
-function MenuSearchService($http, ApiBasePath){
-  var service = this;
+// MenuSearchService.$inject = ["$http", "ApiBasePath"];
+// function MenuSearchService($http, ApiBasePath){
+//   var service = this;
+//
+//   service.getMatchedMenuItems = function(search){
+//     console.log("Inside the service");
+//     var response = $http({
+//       method:"GET",
+//       url: (ApiBasePath + "/menu_items.json")
+//     })
+//     .then(function(response){
+//           var found = [];
+//           if(search){
+//             for(var i=0;i<response.data.menu_items.length;i++){
+//               // var n = response.data.menu_items[i].description.toLowerCase().search(search.toLowerCase());
+//               var n = response.data.menu_items[i].description.toLowerCase().indexOf(search);
+//               if(n !== -1){
+//                 found.push(response.data.menu_items[i])
+//               }
+//             }
+//           } else {
+//             console.log("search failed");
+//           }
+//           return found;
+//     });
+//     return response;
+//   }; //function(search)
+// }; //MenuSearchService
 
-  service.getMatchedMenuItems = function(search){
-    console.log("Inside the service");
-    var response = $http({
-      method:"GET",
-      url: (ApiBasePath + "/menu_items.json")
-    })
-    .then(function(response){
-          var found = [];
-          if(search){
-            for(var i=0;i<response.data.menu_items.length;i++){
-              // var n = response.data.menu_items[i].description.toLowerCase().search(search.toLowerCase());
-              var n = response.data.menu_items[i].description.toLowerCase().indexOf(search);
-              if(n !== -1){
-                found.push(response.data.menu_items[i])
-              }
-            }
-          } else {
-            console.log("search failed");
+MenuSearchService.$inject = ['$http', "ApiBasePath"]
+  function MenuSearchService($http, ApiBasePath) {
+    var service = this;
+    var items = [];
+
+    service.getMatchedMenuItems = function (searchTerm) {
+      var matchedMenu = this;
+      items = [];
+
+      searchTerm = searchTerm.trim().toLowerCase();
+
+      var promise = $http({url: (ApiBasePath +"/menu_items.json")});
+
+      promise.then(function (response) {
+        // console.log(response.data.menu_items);
+        for ( var i = 0 ; i < response.data.menu_items.length ; i++ ) {
+          if ( ( response.data.menu_items[i].description.toLowerCase().indexOf(searchTerm) !== -1 ) || ( response.data.menu_items[i].name.toLowerCase().indexOf(searchTerm) !== -1 ) ) {
+            items.push( response.data.menu_items[i] );
           }
-          return found;
-    });
-    return response;
-  }; //function(search)
-}; //MenuSearchService
+        }
+      }).catch(function (error) {
+        console.log("Error while retrieving the data.");
+      });
+      return items;
+    };
+
+    service.removeItem = function (itemIndex) {
+      return items.splice(itemIndex, 1);
+    };
+  }
 
 })();
