@@ -12,8 +12,9 @@ function FoundItemsDirective(){
   var ddo = {
     templateUrl: 'menuList.html',
     scope: {
-       found: '<',
-      // preSearch: '<',
+      found: '<',
+      preSearch: '=',
+      Sudhir: '<',
       removeItem: '&'
     },
     controller: FoundItemsDirectiveController,
@@ -29,17 +30,17 @@ function FoundItemsDirectiveController() {
   var list = this;
 
   list.showMsg = function(){
-    // console.log("Inside Show Message Function. Value of preSearch is " + list.preSearch);
+    console.log("Inside Show Message Function. Value of preSearch is " + list.preSearch);
     console.log(list);
-    // if(list.preSearch == true){
-    //   return false;
-    // } else {
-    //   if (list.found.length == 0){
-    //     return true;
-    //   }
-    // }
-    // return false;
-    return true;
+    if(list.preSearch == true){
+      return false;
+    } else {
+      if (list.found.length == 0){
+        return true;
+      }
+    }
+    return false;
+    // return true;
   }
 };
 
@@ -62,21 +63,22 @@ NarrowItDownController.$inject = ['MenuSearchService'];
 function NarrowItDownController(MenuSearchService){
   var items = this;
 
-  // items.preSearch = true;
-  // console.log("Inside Controller. Value of preSearch is " + items.preSearch);
+  items.preSearch = true;
+  items.Sudhir = "Sudhir";
+  console.log("Inside Controller. Value of preSearch is " + items.preSearch);
   items.found = [];
   items.getMatchedMenuItems = function(){
-    // console.log("Inside getMatchedMenuItems function. Value of preSearch is " + items.preSearch);
+    console.log("Inside getMatchedMenuItems function. Value of preSearch is " + items.preSearch);
     items.found.splice(0, items.found.length);
-    // items.preSearch = true;
+    items.preSearch = true;
     var promise = MenuSearchService.getMatchedMenuItems(items.search);
     console.log("Got promise");
     promise.then(function (response){
         console.log("Inside promise")
         items.found = response;
-        // items.preSearch = false;
+        items.preSearch = false;
         console.log("End of promise")
-    })
+    }, function(response){})
     .catch(function(error){
       console.log("1. Caught the error with reason" + error.reason);
       console.log("1. Caught the error with reason" + error.status);
@@ -87,7 +89,7 @@ function NarrowItDownController(MenuSearchService){
 
   items.removeItem = function(index){
       items.found.splice(index, 1);
-      // if (items.found.length == 0) items.preSearch = false;
+      if (items.found.length == 0) items.preSearch = false;
   };
 } // Controller
 
