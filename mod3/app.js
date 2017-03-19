@@ -57,21 +57,21 @@ function FoundItemsDirectiveLink(scope, element, attrs, controller) {
 NarrowItDownController.$inject = ['MenuSearchService'];
 function NarrowItDownController(MenuSearchService){
   var list = this;
-  console.log("Inside Controller");
+  // console.log("Inside Controller");
 
   list.preSearch = true;
   list.found = [];
   list.getMatchedMenuItems = function(){
-    console.log("Inside getMatchedMenuItems function");
+    // console.log("Inside getMatchedMenuItems function");
     list.found.splice(0, list.found.length);
     list.preSearch = true;
     var promise = MenuSearchService.getMatchedMenuItems(list.search);
-    console.log("Got promise");
+    // console.log("Got promise");
     promise.then(function (response){
-        console.log("Inside promise")
+        // console.log("Inside promise")
         list.found = response;
         list.preSearch = false;
-        console.log("End of promise")
+        // console.log("End of promise")
     })
     .catch(function(error){
       console.log("1. Caught the error with reason" + error.reason);
@@ -91,7 +91,7 @@ function MenuSearchService($http, ApiBasePath){
   var service = this;
 
   service.getMatchedMenuItems = function(search){
-    console.log("Inside the service");
+    // console.log("Inside the service");
     var response = $http({
       method:"GET",
       url: (ApiBasePath + "/menu_items.json")
