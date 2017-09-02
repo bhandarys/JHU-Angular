@@ -1,0 +1,20 @@
+
+
+<Label>First Name:     </Label>
+<Text>{{$ctrl.userinfo.firstname}}</Text><BR>
+<Label>Last Name:     </Label>
+<Text>{{$ctrl.userinfo.lastname}}</Text><BR>
+<Label>Email:     </Label>
+<Text>{{$ctrl.userinfo.email}}</Text><BR>
+<Label>Phone:     </Label>
+<Text>{{$ctrl.userinfo.phone}}</Text><BR>
+<Label>Favorite Dish:     </Label>
+<Text>{{$ctrl.userinfo.favdish}}</Text><BR>
+
+
+<Label>Favorite Dish Name:     </Label>
+<Text>{{$ctrl.userinfo.dishdetails.name}}</Text><BR>
+<Label>Favorite Dish Description:     </Label>
+<Text>{{$ctrl.userinfo.dishdetails.description}}</Text><BR>
+<img class="img-responsive" width="250" height="150" ng-src="{{$ctrl.basePath}}/images/{{$ctrl.userinfo.dishdetails.short_name}}.jpg" alt="{{$ctrl.userinfo.dishdetails.name}}">
+<!-- <img class="img-responsive" width="250" height="150" ng-src="https://sudhirs-coursera.herokuapp.com/images/{{$ctrl.userinfo.dishdetails.short_name}}.jpg" alt="{{$ctrl.userinfo.dishdetails.name}}"> -->
