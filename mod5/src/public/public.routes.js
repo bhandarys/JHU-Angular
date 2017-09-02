@@ -54,9 +54,7 @@ function routeConfig ($stateProvider) {
       controllerAs: 'custInfoCtrl',
       resolve: {
         UserInfo : ["MenuService", function(MenuService) {
-          // var user =  MenuService.GetUserInfo();
           return MenuService.GetUserInfo();
-          // return user;
         }]
       }
     });

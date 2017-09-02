@@ -13,14 +13,8 @@ function SignUpController(MenuService){
   signUpCtrl.infosaved = false;
 
   signUpCtrl.user = {};
-  signUpCtrl.user.firstname = "Sudhir";
-  signUpCtrl.user.lastname = "Bhandary";
-  signUpCtrl.user.email = "Sudhir@Sudhir";
-  signUpCtrl.user.phone = "777-777-7777";
-  signUpCtrl.user.favdish = "A1"
 
   function SaveUserInfo(){
-    console.log("Inside SaveUserInfo " + signUpCtrl.user.firstname);
       MenuService.SaveUserInfo(signUpCtrl.user);
       signUpCtrl.infosaved = true;
   };

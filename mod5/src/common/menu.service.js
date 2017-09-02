@@ -28,49 +28,27 @@ function MenuService($http, ApiPath) {
   };
 
   service.getDishAvailability = function (short_name) {
-    // var config = {};
-    // if (category) {
-    //   config.params = {'category': category};
-    // }
-
     return $http.get(ApiPath + '/menu_items/' + short_name + '.json').then(function (response) {
-      console.log("Sucess");
-      console.log(response);
-      console.log(response.status);
       return true;
     },
     function (response) {
-      console.log("Error");
-      console.log(response);
-      console.log(response.status);
       return false;
     });
   };
 
   service.getDishDetails = function (short_name) {
-    console.log("Getting details for " + short_name);
     return $http.get(ApiPath + '/menu_items/' + short_name + '.json').then(function (response) {
-      console.log(response.data);
       return response.data;
     });
   };
 
   service.SaveUserInfo = function(user){
-    console.log("In service save info" + user.firstname);
-    service.user = user;
+    service.user = angular.copy(user);
   };
 
   service.GetUserInfo = function(){
-    console.log("In service get info");
-    // if (service.user == undefined){
-    //   return null;
-    // }
-    // console.log("In service get info" + service.user.firstname);
     return service.user;
   };
 
 }
-
-
-
 })();

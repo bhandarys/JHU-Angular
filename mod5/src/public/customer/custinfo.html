@@ -1,7 +1,7 @@
 <Div class="container">
   <H1> User Registration Details </H1>
     <DIV ng-if="!custInfoCtrl.registered"> Not Signed Up Yet.
-      <Div ui-sref="public.signUp"> Sign up Now!</DIV>
+      <Div ui-sref="public.signUp" ui-sref-active="active"> Sign up Now!</DIV>
     </DIV>
     <cust-info-component ng-if="custInfoCtrl.registered" userinfo = "custInfoCtrl.user"></cust-info-component>
 </Div>
